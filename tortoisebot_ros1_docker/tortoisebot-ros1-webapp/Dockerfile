@@ -8,9 +8,11 @@ WORKDIR /catkin_ws/src
 
 # Install Git
 RUN apt-get update && apt-get install -y \
-    git python-is-python3
+    git sudo ros-noetic-rosbridge-server
 
 COPY ./course_web_dev_ros ./course_web_dev_ros
+COPY ./async_web_server_cpp ./async_web_server_cpp
+COPY ./web_video_server ./web_video_server
 
 WORKDIR /catkin_ws
 

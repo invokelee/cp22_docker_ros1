@@ -11,9 +11,9 @@ RUN mkdir -p /catkin_ws/src
 WORKDIR /catkin_ws/src
 
 # Copy the map, configuration and launch files needed for navigation
-COPY ./tortoisebot_description ./tortoisebot_description
-COPY ./tortoisebot_navigation ./tortoisebot_navigation
-COPY ./tortoisebot_slam ./tortoisebot_slam
+COPY ./tortoisebot/tortoisebot_description ./tortoisebot_description
+COPY ./tortoisebot/tortoisebot_navigation ./tortoisebot_navigation
+COPY ./tortoisebot/tortoisebot_slam ./tortoisebot_slam
 
 WORKDIR /catkin_ws
 RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && catkin_make"
@@ -27,4 +27,5 @@ RUN echo "source /catkin_ws/devel/setup.bash" >> ~/.bashrc
 
 # Start a bash shell when the container starts
 WORKDIR /catkin_ws
-CMD ["bash"]
+# CMD ["bash"]
+CMD ["/catkin_ws/entrypoint.sh"]

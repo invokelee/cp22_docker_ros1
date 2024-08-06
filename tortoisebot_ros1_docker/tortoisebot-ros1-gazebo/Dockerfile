@@ -23,8 +23,9 @@ RUN mkdir -p /catkin_ws/src
 WORKDIR /catkin_ws/src
 
 # Copy the files in the current directory into the container
-COPY ./tortoisebot_gazebo ./tortoisebot_gazebo
-COPY ./tortoisebot_description ./tortoisebot_description
+# COPY ../README.md ./tortoisebot_gazebo
+COPY ./tortoisebot/tortoisebot_gazebo ./tortoisebot_gazebo
+COPY ./tortoisebot/tortoisebot_description ./tortoisebot_description
 
 
 # Source ros noetic and build workspace
@@ -35,4 +36,5 @@ RUN echo "source /catkin_ws/devel/setup.bash" >> ~/.bashrc
 
 # Start a bash shell when the container starts
 WORKDIR /catkin_ws
-CMD ["bash"]
+# CMD ["bash"]
+CMD ["/catkin_ws/entrypoint.sh"]
