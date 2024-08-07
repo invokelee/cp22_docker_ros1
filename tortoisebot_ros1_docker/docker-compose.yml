@@ -2,7 +2,7 @@ version: "3.7"
 services:
   tortoisebot-ros1-gazebo:
     build:
-      context: .
+      context: ..
       dockerfile: ./tortoisebot_ros1_docker/tortoisebot-ros1-gazebo/Dockerfile
     hostname: ros1_gazebo
     environment:    
@@ -13,18 +13,20 @@ services:
       - /ros1_gazebo/entrypoint.sh
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - ./tortoisebot_ros1_docker/tortoisebot-ros1-gazebo/entrypoint.sh:/ros1_gazebo/entrypoint.sh
+      - ./tortoisebot-ros1-gazebo/entrypoint.sh:/ros1_gazebo/entrypoint.sh
       - gazebo-static:/ros1_gazebo/static/
     networks:
       - ros1_sim_net
 
   tortoisebot-ros1-slam:
     build:
-      context: .
+      context: ..
       dockerfile: ./tortoisebot_ros1_docker/tortoisebot-ros1-slam/Dockerfile
     hostname: ros1_slam
-    extra_hosts:
-      - ros1_gazebo:172.19.0.2
+    # extra_hosts:
+    #   - ros1_gazebo:tortoisebot-ros1-gazebo
+    links:
+      - tortoisebot-ros1-gazebo:ros1_gazebo
     depends_on:
       - tortoisebot-ros1-gazebo
     environment:    
@@ -35,17 +37,19 @@ services:
       - /ros1_slam/entrypoint.sh
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - ./tortoisebot_ros1_docker/tortoisebot-ros1-slam/entrypoint.sh:/ros1_slam/entrypoint.sh
+      - ./tortoisebot-ros1-slam/entrypoint.sh:/ros1_slam/entrypoint.sh
     networks:
       - ros1_sim_net
 
   tortoisebot-ros1-waypoints:
     build:
-      context: .
+      context: ..
       dockerfile: ./tortoisebot_ros1_docker/tortoisebot-ros1-waypoints/Dockerfile
     hostname: ros1_waypoints
-    extra_hosts:
-      - ros1_gazebo:172.19.0.2
+    # extra_hosts:
+    #   - ros1_gazebo:tortoisebot-ros1-gazebo
+    links:
+      - tortoisebot-ros1-gazebo:ros1_gazebo
     depends_on:
       - tortoisebot-ros1-gazebo
     environment:    
@@ -56,28 +60,31 @@ services:
       - /ros1_waypoints/entrypoint.sh
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - ./tortoisebot_ros1_docker/tortoisebot-ros1-waypoints/entrypoint.sh:/ros1_waypoints/entrypoint.sh
+      - ./tortoisebot-ros1-waypoints/entrypoint.sh:/ros1_waypoints/entrypoint.sh
     networks:
       - ros1_sim_net
 
   tortoisebot-ros1-webapp:
     build:
-      context: .
+      context: ..
       dockerfile: ./tortoisebot_ros1_docker/tortoisebot-ros1-webapp/Dockerfile
     hostname: ros1_webapp
-    extra_hosts:
-      - ros1_gazebo:172.19.0.2
+    # extra_hosts:
+    #   - ros1_gazebo:tortoisebot-ros1-gazebo
+    links:
+      - tortoisebot-ros1-gazebo:ros1_gazebo
     depends_on:
       - tortoisebot-ros1-gazebo
     environment:    
       - DISPLAY=${DISPLAY}
       - ROS_MASTER_URI=http://ros1_gazebo:11311
       - ROS_HOSTNAME=ros1_webapp
+      - SLOT_ROSBRIDGE_PORT=20001
     command:
       - /ros1_webapp/entrypoint.sh
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - ./tortoisebot_ros1_docker/tortoisebot-ros1-webapp/entrypoint.sh:/ros1_webapp/entrypoint.sh
+      - ./tortoisebot-ros1-webapp/entrypoint.sh:/ros1_webapp/entrypoint.sh
     networks:
       - ros1_sim_net
 
