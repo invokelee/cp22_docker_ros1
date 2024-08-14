@@ -1,0 +1,52 @@
+# version: "3.7"
+services:
+  tortoisebot-ros1-real:
+    image: invokelee/tortoisebot-ros1-real:1.0
+    privileged: true
+    hostname: real1_bringup
+    environment:    
+      - DISPLAY=${DISPLAY}
+      - ROS_MASTER_URI=http://real1_bringup:11311
+      - ROS_HOSTNAME=real1_bringup
+      - ROS_PACKAGE_PATH=/catkin_ws/src:/opt/ros/noetic/share:/catkin_ws/carto_ws/install_isolated/share
+    command:
+      - /ros1_real/entrypoint.sh
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+      - /dev/mem:/dev/mem
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./tortoisebot-ros1-real/entrypoint.sh:/ros1_real/entrypoint.sh
+      - ./tortoisebot-ros1-real/camerav2_410x308.yaml:/root/.ros/camera_info/camerav2_410x308.yaml
+      - real-static:/ros1_real/static/
+    networks:
+      - ros1_real_net
+
+  tortoisebot-ros1-slam-real:
+    image: invokelee/tortoisebot-ros1-slam-real:1.0
+    privileged: true
+    hostname: real1_slam
+    links:
+      - tortoisebot-ros1-real:real1_bringup
+    restart: on-failure
+    depends_on:
+      - tortoisebot-ros1-real
+    environment:    
+      - DISPLAY=${DISPLAY}
+      - ROS_MASTER_URI=http://real1_bringup:11311
+      - ROS_HOSTNAME=real1_slam
+      - ROS_PACKAGE_PATH=/catkin_ws/src:/opt/ros/noetic/share:/catkin_ws/carto_ws/install_isolated/share
+    command:
+      - /ros1_slam/entrypoint.sh
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./tortoisebot-ros1-slam-real/entrypoint.sh:/ros1_slam/entrypoint.sh
+      - ./tortoisebot-ros1-slam-real/static:/ros1_slam/static/
+    networks:
+      - ros1_real_net
+
+volumes:
+  real-static:
+
+networks:
+  ros1_real_net:

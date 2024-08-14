@@ -1,9 +1,10 @@
 version: "3.7"
 services:
   tortoisebot-ros1-gazebo:
-    build:
-      context: ..
-      dockerfile: ./tortoisebot_ros1_docker/tortoisebot-ros1-gazebo/Dockerfile
+    image: invokelee/ros1-gazebo:1.0
+    # build:
+    #   context: ..
+    #   dockerfile: ./tortoisebot_ros1_docker/tortoisebot-ros1-gazebo/Dockerfile
     hostname: ros1_gazebo
     environment:    
       - DISPLAY=${DISPLAY}
@@ -19,9 +20,10 @@ services:
       - ros1_sim_net
 
   tortoisebot-ros1-slam:
-    build:
-      context: ..
-      dockerfile: ./tortoisebot_ros1_docker/tortoisebot-ros1-slam/Dockerfile
+    image: invokelee/ros1-slam:1.0
+    # build:
+    #   context: ..
+    #   dockerfile: ./tortoisebot_ros1_docker/tortoisebot-ros1-slam/Dockerfile
     hostname: ros1_slam
     # extra_hosts:
     #   - ros1_gazebo:tortoisebot-ros1-gazebo
@@ -42,9 +44,10 @@ services:
       - ros1_sim_net
 
   tortoisebot-ros1-waypoints:
-    build:
-      context: ..
-      dockerfile: ./tortoisebot_ros1_docker/tortoisebot-ros1-waypoints/Dockerfile
+    image: invokelee/ros1-waypoints:1.0
+    # build:
+    #   context: ..
+    #   dockerfile: ./tortoisebot_ros1_docker/tortoisebot-ros1-waypoints/Dockerfile
     hostname: ros1_waypoints
     # extra_hosts:
     #   - ros1_gazebo:tortoisebot-ros1-gazebo
@@ -65,9 +68,10 @@ services:
       - ros1_sim_net
 
   tortoisebot-ros1-webapp:
-    build:
-      context: ..
-      dockerfile: ./tortoisebot_ros1_docker/tortoisebot-ros1-webapp/Dockerfile
+    image: invokelee/ros1-webapp:1.0
+    # build:
+    #   context: ..
+    #   dockerfile: ./tortoisebot_ros1_docker/tortoisebot-ros1-webapp/Dockerfile
     hostname: ros1_webapp
     # extra_hosts:
     #   - ros1_gazebo:tortoisebot-ros1-gazebo
