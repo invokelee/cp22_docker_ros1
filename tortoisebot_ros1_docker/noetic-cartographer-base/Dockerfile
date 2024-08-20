@@ -46,7 +46,7 @@ RUN wstool update -t src
 
 RUN rm -f /etc/ros/rosdep/sources.list.d/20-default.list
 WORKDIR /catkin_ws/carto_ws/src/cartographer
-COPY /tortoisebot_ros1_docker/tortoisebot-ros1-real/package.xml ./
+COPY /tortoisebot_ros1_docker/tortoisebot-ros1-real/package.xml.sav ./package.xml
 
 WORKDIR /catkin_ws/carto_ws
 RUN rosdep init
