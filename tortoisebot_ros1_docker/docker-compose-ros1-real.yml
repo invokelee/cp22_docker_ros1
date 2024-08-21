@@ -4,10 +4,10 @@ services:
     image: invokelee/tortoisebot-ros1-real:1.0
     network_mode: host
     privileged: true
-    hostname: ${ROS_HOSTNAME}
+    hostname: localhost
     environment:    
       - DISPLAY=${DISPLAY}
-      - ROS_MASTER_URI=${ROS_MASTER_URI}
+      - ROS_MASTER_URI=http://localhost:11311
       - ROS_PACKAGE_PATH=/catkin_ws/src:/opt/ros/noetic/share:/catkin_ws/carto_ws/install_isolated/share
     command:
       - /ros1_real/entrypoint.sh
@@ -24,14 +24,13 @@ services:
     image: invokelee/tortoisebot-ros1-slam-real:1.0
     network_mode: host
     privileged: true
-    hostname: ${ROS_HOSTNAME}
+    hostname: localhost
     restart: on-failure
     depends_on:
       - tortoisebot-ros1-real
     environment:    
       - DISPLAY=${DISPLAY}
-      - ROS_MASTER_URI=${ROS_MASTER_URI}
-      - ROS_HOSTNAME=${ROS_HOSTNAME}
+      - ROS_MASTER_URI=http://localhost:11311
       - ROS_PACKAGE_PATH=/catkin_ws/src:/opt/ros/noetic/share:/catkin_ws/carto_ws/install_isolated/share
     command:
       - /ros1_slam/entrypoint.sh
