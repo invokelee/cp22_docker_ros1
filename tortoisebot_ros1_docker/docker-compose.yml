@@ -31,6 +31,7 @@ services:
       - tortoisebot-ros1-gazebo:ros1_gazebo
     depends_on:
       - tortoisebot-ros1-gazebo
+    restart: on-failure
     environment:    
       - DISPLAY=${DISPLAY}
       - ROS_MASTER_URI=http://ros1_gazebo:11311
@@ -55,6 +56,7 @@ services:
       - tortoisebot-ros1-gazebo:ros1_gazebo
     depends_on:
       - tortoisebot-ros1-gazebo
+    restart: on-failure
     environment:    
       - DISPLAY=${DISPLAY}
       - ROS_MASTER_URI=http://ros1_gazebo:11311
@@ -79,6 +81,7 @@ services:
       - tortoisebot-ros1-gazebo:ros1_gazebo
     depends_on:
       - tortoisebot-ros1-gazebo
+    restart: on-failure
     environment:    
       - DISPLAY=${DISPLAY}
       - ROS_MASTER_URI=http://ros1_gazebo:11311
