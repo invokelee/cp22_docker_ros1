@@ -15,8 +15,8 @@ var app = new Vue({
         // Map viewer
         mapViewer: null,
         mapGridClient: null,
-        interval: null,       
-            // dragging data
+        interval: null,
+        // dragging data
         dragging: false,
         drg_x: 'no',
         drg_y: 'no',
@@ -41,32 +41,32 @@ var app = new Vue({
         // waypoint
         target_wp: 0,
         action: {
-            goal: { position: {x: 0, y: 0, z: 0 } },
+            goal: { position: { x: 0, y: 0, z: 0 } },
             feedback: { position: 0, state: 'idle' },
             result: { success: false },
-            status: { status: 0, text: ''},
+            status: { status: 0, text: '' },
         },
         cur_pos: {
             x: 0,
             y: 0,
         },
         wplist: [
-            {x: 0.15, y: -0.48},
-            {x: 0.70, y: -0.48},
-            {x: 0.70, y:  0.45},
-            {x: 0.20, y:  0.48},
-            {x: 0.20, y:  0},
-            {x:-0.15, y:  0},
-            {x:-0.20, y: -0.50},
-            {x:-0.50, y: -0.50},
-            {x:-0.20, y:  0.50},
-            {x:-0.65, y:  0.48},
+            { x: 0.25, y: -0.48 },
+            { x: 0.60, y: -0.45 },
+            { x: 0.60, y: 0 },
+            { x: 0.60, y: 0.45 },
+            { x: 0, y: 0.45 },
+            { x: -0.60, y: 0.45 },
+            { x: -0.60, y: 0 },
+            { x: -0.60, y: -0.45 },
+            { x: -0.60, y: 0 },
+            { x: 0, y: 0 },
         ],
 
     },
     // helper methods to connect to ROS
     methods: {
-        connect: function() {
+        connect: function () {
             this.loading = true
             this.ros = new ROSLIB.Ros({
                 url: this.rosbridge_address
@@ -120,7 +120,7 @@ var app = new Vue({
                 clearinterval(this.pubInterval)
             })
         },
-        disconnect: function() {
+        disconnect: function () {
             this.ros.close()
         },
         // Model 3D viewer
@@ -136,7 +136,7 @@ var app = new Vue({
 
             // Add a grid.
             this.viewer.addObject(new ROS3D.Grid({
-                color:'#0181c4',
+                color: '#0181c4',
                 cellSize: 0.5,
                 num_cells: 20
             }))
@@ -166,7 +166,7 @@ var app = new Vue({
             document.getElementById('div3DViewer').innerHTML = ''
         },
         // Camera viewer
-        setCamera: function() {
+        setCamera: function () {
             let without_wss = this.rosbridge_address.split('wss://')[1]
             console.log(without_wss)
             let domain = without_wss.split('/')[0] + '/' + without_wss.split('/')[1]
@@ -236,18 +236,18 @@ var app = new Vue({
             this.joystick.vertical = 0
             this.joystick.horizontal = 0
         },
-        sendGoal: function() {
+        sendGoal: function () {
             let actionClient = new ROSLIB.ActionClient({
-                ros : this.ros,
-                serverName : '/tortoisebot_as',
-                actionName : 'course_web_dev_ros/WaypointActionAction'
+                ros: this.ros,
+                serverName: '/tortoisebot_as',
+                actionName: 'course_web_dev_ros/WaypointActionAction'
             })
             this.action.goal.position.x = this.wplist[this.target_wp].x
             this.action.goal.position.y = this.wplist[this.target_wp].y
-            this.logs.unshift('Goal: ' + this.action.goal.position.x + ', ' 
-                            + this.action.goal.position.y)
+            this.logs.unshift('Goal: ' + this.action.goal.position.x + ', '
+                + this.action.goal.position.y)
             this.goal = new ROSLIB.Goal({
-                actionClient : actionClient,
+                actionClient: actionClient,
                 goalMessage: {
                     position: this.action.goal.position
                 }
@@ -269,9 +269,9 @@ var app = new Vue({
             })
 
             this.goal.send()
-            
+
         },
-        cancelGoal: function() {
+        cancelGoal: function () {
             this.goal.cancel()
         },
     },

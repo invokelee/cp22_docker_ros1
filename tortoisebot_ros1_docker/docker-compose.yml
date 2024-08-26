@@ -18,6 +18,8 @@ services:
       - gazebo-static:/ros1_gazebo/static/
     networks:
       - ros1_sim_net
+    ports:
+      - "11311:11311"
 
   tortoisebot-ros1-slam:
     image: invokelee/ros1-slam:1.0
@@ -94,6 +96,11 @@ services:
       - ./tortoisebot-ros1-webapp/entrypoint.sh:/ros1_webapp/entrypoint.sh
     networks:
       - ros1_sim_net
+    ports:
+      - "9090:9090"
+      - "11315:11315"
+      - "7000:7000"
+      - "20001:20001"
 
 volumes:
   gazebo-static:
